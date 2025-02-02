@@ -64,12 +64,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // 📌 Butonların varsayılan resimleri
-  String yolcuButonResmi = "assets/yolcu_buton.png";
-  String soforButonResmi = "assets/sofor_buton.png";
+  String yolcuButonResmi = "assets/kullanici_button.png";
+  String soforButonResmi = "assets/sofor_button.png";
 
   // 📌 Tıklanınca değişecek resimler
-  final String yolcuTiklanmis = "assets/yolcu_buton_tiklandi.png";
-  final String soforTiklanmis = "assets/sofor_buton_tiklandi.png";
+  final String yolcuTiklanmis = "assets/kullanici_buttontiklama.png";
+  final String soforTiklanmis = "assets/sofor_buttontiklama.png";
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   onTapUp: (_) {
                     setState(() {
-                      yolcuButonResmi = "assets/yolcu_buton.png"; // Parmağı kaldırınca eski haline dön
+                      yolcuButonResmi = "assets/kullanici_button.png"; // Parmağı kaldırınca eski haline dön
                     });
                   },
                   onTapCancel: () {
                     setState(() {
-                      yolcuButonResmi = "assets/yolcu_buton.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
+                      yolcuButonResmi = "assets/kullanici_button.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
                     });
                   },
                   child: SizedBox(
@@ -128,12 +128,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   onTapUp: (_) {
                     setState(() {
-                      soforButonResmi = "assets/sofor_buton.png"; // Parmağı kaldırınca eski haline dön
+                      soforButonResmi = "assets/sofor_button.png"; // Parmağı kaldırınca eski haline dön
                     });
                   },
                   onTapCancel: () {
                     setState(() {
-                      soforButonResmi = "assets/sofor_buton.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
+                      soforButonResmi = "assets/sofor_button.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
                     });
                   },
                   child: SizedBox(

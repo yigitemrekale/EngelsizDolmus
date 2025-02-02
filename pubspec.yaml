@@ -55,10 +55,10 @@ flutter:
   assets:
     - assets/giris_ekrani.png
     - assets/arka_plan.png
-    - assets/yolcu_buton.png
-    - assets/yolcu_buton_tiklandi.png
-    - assets/sofor_buton.png
-    - assets/sofor_buton_tiklandi.png
+    - assets/kullanici_button.png
+    - assets/kullanici_buttontiklama.png
+    - assets/sofor_button.png
+    - assets/sofor_buttontiklama.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

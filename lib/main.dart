@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // Zamanlayıcı için gerekli
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(), // İlk açılışta giriş ekranı gösterilecek
+      home: const SplashScreen(),
     );
   }
 }
 
-//------------------------------- GİRİŞ EKRANI (Splash Screen)-------------------------------
+//------------------------------- GİRİŞ EKRANI -------------------------------
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // 3 saniye sonra ana sayfaya yönlendirme
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
@@ -44,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Image.asset(
-          "assets/giris_ekrani.png", // 📌 Giriş ekranı için resim
+          "assets/giris_ekrani.png",
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.cover,
@@ -71,81 +70,105 @@ class _HomeScreenState extends State<HomeScreen> {
   final String yolcuTiklanmis = "assets/kullanici_buttontiklama.png";
   final String soforTiklanmis = "assets/sofor_buttontiklama.png";
 
+  bool isListening = false;
+  double rippleSize = 0;
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: [
-          // Arka plan resmi
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/arka_plan.png"), // Arka plan yolu
-                fit: BoxFit.cover,
-              ),
+          // 📌 Arka Plan Resmi
+          Positioned.fill(
+            child: Image.asset(
+              "assets/arka_plan.png",
+              fit: BoxFit.cover,
             ),
           ),
-          // Butonlar
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+          // 📌 Butonlar (Ortalı)
+          Positioned(
+            top: screenHeight * 0.35,
+            child: Column(
               children: [
                 // Yolcu Butonu
                 GestureDetector(
-                  onTapDown: (_) {
-                    setState(() {
-                      yolcuButonResmi = yolcuTiklanmis; // Basınca değiş
-                    });
-                  },
-                  onTapUp: (_) {
-                    setState(() {
-                      yolcuButonResmi = "assets/kullanici_button.png"; // Parmağı kaldırınca eski haline dön
-                    });
-                  },
-                  onTapCancel: () {
-                    setState(() {
-                      yolcuButonResmi = "assets/kullanici_button.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
-                    });
-                  },
+                  onTapDown: (_) => setState(() => yolcuButonResmi = yolcuTiklanmis),
+                  onTapUp: (_) => setState(() => yolcuButonResmi = "assets/kullanici_button.png"),
+                  onTapCancel: () => setState(() => yolcuButonResmi = "assets/kullanici_button.png"),
                   child: SizedBox(
-                    width: 180,
-                    height: 80,
-                    child: Image.asset(
-                      yolcuButonResmi,
-                      fit: BoxFit.contain, // 📌 Resmi boyuta göre büyütüp küçült
-                    ),
+                    width: screenWidth * 0.6,
+                    height: screenHeight * 0.08,
+                    child: Image.asset(yolcuButonResmi, fit: BoxFit.contain),
                   ),
                 ),
 
+                const SizedBox(height: 20), // 📌 Butonlar arası boşluk
+
                 // Şoför Butonu
                 GestureDetector(
-                  onTapDown: (_) {
-                    setState(() {
-                      soforButonResmi = soforTiklanmis; // Basınca değiş
-                    });
-                  },
-                  onTapUp: (_) {
-                    setState(() {
-                      soforButonResmi = "assets/sofor_button.png"; // Parmağı kaldırınca eski haline dön
-                    });
-                  },
-                  onTapCancel: () {
-                    setState(() {
-                      soforButonResmi = "assets/sofor_button.png"; // Parmağı kaydırıp kaldırırsa eski haline dön
-                    });
-                  },
+                  onTapDown: (_) => setState(() => soforButonResmi = soforTiklanmis),
+                  onTapUp: (_) => setState(() => soforButonResmi = "assets/sofor_button.png"),
+                  onTapCancel: () => setState(() => soforButonResmi = "assets/sofor_button.png"),
                   child: SizedBox(
-                    width: 180,
-                    height: 80,
-                    child: Image.asset(
-                      soforButonResmi,
-                      fit: BoxFit.contain, // 📌 Resmi boyuta göre büyütüp küçült
-                    ),
+                    width: screenWidth * 0.6,
+                    height: screenHeight * 0.08,
+                    child: Image.asset(soforButonResmi, fit: BoxFit.contain),
                   ),
                 ),
               ],
+            ),
+          ),
+
+          // 📌 Özel Resimli Buton (Mikrofon yerine kendi resmin)
+          Positioned(
+            bottom: screenHeight * 0.07,
+            child: GestureDetector(
+              onTapDown: (_) => setState(() {
+                isListening = true;
+                rippleSize = 200;
+              }),
+              onTapUp: (_) => setState(() {
+                isListening = false;
+                rippleSize = 0;
+              }),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // 📌 Dalga Efekti (Tıklanınca büyüyen animasyon)
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 400),
+                    width: rippleSize,
+                    height: rippleSize,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue.withOpacity(0.3),
+                    ),
+                  ),
+
+                  // 📌 Özel Resimli Buton (Kendi resmini kullanabilirsin)
+                  Container(
+                    width: screenWidth * 0.18,
+                    height: screenWidth * 0.18,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 10, spreadRadius: 3),
+                      ],
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        "assets/sesli_asistan.png", // 📌 Buraya kendi resmini koy
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -1,3 +1,5 @@
+import 'package:engelsizdolmus/sofor_login.dart';
+import 'package:engelsizdolmus/user_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -97,9 +99,18 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 // Yolcu Butonu
                 GestureDetector(
-                  onTapDown: (_) => setState(() => yolcuButonResmi = yolcuTiklanmis),
-                  onTapUp: (_) => setState(() => yolcuButonResmi = "assets/kullanici_button.png"),
-                  onTapCancel: () => setState(() => yolcuButonResmi = "assets/kullanici_button.png"),
+                  onTapDown: (_) =>
+                      setState(() => yolcuButonResmi = yolcuTiklanmis),
+                  onTapUp: (_) => setState(
+                      () => yolcuButonResmi = "assets/kullanici_button.png"),
+                  onTapCancel: () => setState(
+                      () => yolcuButonResmi = "assets/kullanici_button.png"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserLogin()),
+                    );
+                  },
                   child: SizedBox(
                     width: screenWidth * 0.6,
                     height: screenHeight * 0.08,
@@ -111,9 +122,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Şoför Butonu
                 GestureDetector(
-                  onTapDown: (_) => setState(() => soforButonResmi = soforTiklanmis),
-                  onTapUp: (_) => setState(() => soforButonResmi = "assets/sofor_button.png"),
-                  onTapCancel: () => setState(() => soforButonResmi = "assets/sofor_button.png"),
+                  onTapDown: (_) =>
+                      setState(() => soforButonResmi = soforTiklanmis),
+                  onTapUp: (_) => setState(
+                      () => soforButonResmi = "assets/sofor_button.png"),
+                  onTapCancel: () => setState(
+                      () => soforButonResmi = "assets/sofor_button.png"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SoforLogin()),
+                    );
+                  },
                   child: SizedBox(
                     width: screenWidth * 0.6,
                     height: screenHeight * 0.08,
@@ -157,7 +177,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       boxShadow: [
-                        BoxShadow(color: Colors.black26, blurRadius: 10, spreadRadius: 3),
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            spreadRadius: 3),
                       ],
                     ),
                     child: ClipOval(
